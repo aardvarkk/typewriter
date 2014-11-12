@@ -2,7 +2,22 @@
 
 #include <cstdint>
 #include <iostream>
+#include <random>
+#include <set>
 #include <vector>
+
+// Random number engine
+std::mt19937 eng;
+
+struct char_match_t
+{
+  uint32_t diff;
+  int char_idx;
+
+  bool operator<(char_match_t const& c) const {
+    return this->diff < c.diff;
+  }
+};
 
 // Input: 
 // 1. Font image from character map that's been converted to grayscale (PGM is easily loadable by CImg)
@@ -12,10 +27,11 @@ int main(int argc, char const* agrv[])
   cimg_library::CImg<uint8_t> font_img("font_img.pgm");
   cimg_library::CImgList<uint8_t> font_chars;
 
-  int ox = 12; // Offset to first border pixel in X
-  int oy = 10; // Offset to first border pixel in Y
+  int ox = 2; // Offset to first border pixel in X
+  int oy = 2; // Offset to first border pixel in Y
   int px = 5; // Size of padding in X
-  int py = 3; // Size of padding in Y
+  int py = 0; // Size of padding in Y
+  int var = 10; // How much variability we want in written characters. Means "a percentage of all characters", so 5 means we'll choose randomly from the top 5% of chars
 
   int r = 10; // Number of rows
   int c = 20; // Number of columns
@@ -28,6 +44,25 @@ int main(int argc, char const* agrv[])
 
   int disp_ch = 0; // Character to display
   int& adj = disp_ch; // Our variable to adjust
+
+  // Create list of chars for text output
+  std::vector<char> allchars = { 
+    '!', '"', '#', '$', '%', '&', '\'', '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4',
+    '5', '6', '7', '8', '9', ':', ';', '<', '=', '>', '?', '@', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
+    'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '[', '\\',
+    ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
+    'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~', ' '
+  };
+
+  // We want to know where the space is so that we can make an exception for it
+  // In general, we don't want the same characters repeated over and over, but spaces are OK
+  int space_idx = 94; 
+
+  // Create list of allowed output characters
+  std::set<int> allow_idxs;
+  for (int i = 0; i < 95; ++i) {
+    allow_idxs.insert(i);
+  }
 
   std::cout << "Output characters are " << outw << " x " << outh << std::endl;
 
@@ -106,24 +141,38 @@ int main(int argc, char const* agrv[])
       // Resize source block to same size as character images
       src_blk.resize(outw, outh);
 
-      // Compare to each of our characters and find best match
-      uint32_t min_idx = 0;
-      uint32_t min_diff = UINT32_MAX;
-      for (uint32_t idx = 0; idx < font_chars.size(); ++idx) {
+      // Collect all diffs so we can choose randoms from a top percentage
+      // This way, the typing is more interesting instead of repeated letters over and over
+      std::set<char_match_t> matches;
+
+      // Only allow characters we're OK with
+      for (auto ai : allow_idxs) {
+      //for (uint32_t idx = 0; idx < font_chars.size(); ++idx) {
 
         // Diff for this character
         uint32_t diff = 0;
         for (uint32_t k = 0; k < src_blk.size(); ++k) {
-          diff += abs(src_blk[k] - font_chars[idx][k]);
+          diff += abs(src_blk[k] - font_chars[ai][k]);
         }
 
-        if (diff < min_diff) {
-          min_diff = diff;
-          min_idx = idx;
-        }
+        char_match_t match;
+        match.char_idx = ai;
+        match.diff = diff;
+        matches.insert(match);
       }
 
-      chosen_chars.push_back(min_idx);
+      // If our best match is a space, we'll keep it
+      if (matches.begin()->char_idx == space_idx) {
+        chosen_chars.push_back(space_idx);
+      }
+      // If it's not a space, choose a random from the top n% of matches
+      else {
+        auto topn = allchars.size() * var / 100;
+        std::uniform_int_distribution<> distn(0, topn);
+        auto it = matches.begin();
+        std::advance(it, distn(eng));
+        chosen_chars.push_back(it->char_idx);
+      }
     }
   }
 
@@ -141,7 +190,11 @@ int main(int argc, char const* agrv[])
           out_img.at((i * outh + l) * out_img.width() + j * outw + m) = ch.at(l * outw + m);
         }
       }
+
+      std::cout << allchars[chosen_chars[k]];
     }
+
+    std::cout << std::endl;
   }
   out_disp.display(out_img);
   while (out_disp.wait()) {
