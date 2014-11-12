@@ -1,0 +1,389 @@
+Output characters are 10 x 20
+                                                                                
+                                                                                
+                                      ` .|,                                     
+                                    Ng#p@##Mb[                                  
+                                   mKQBmgB@pmm#W_                               
+                                  |NggKm#@@BKmm#W                               
+                                  BB#@|MK@W| |(ppQpd                            
+                             -,`_@NW@Q,U+#  /  #WXN0^*W]                        
+                      `N@WXbQ##p#@WW#Nb@[    *m|)N| bMF!w]                      
+                     dKqMQ#p@@K##N#  ]WWmwp/|* (pbMWp #!*   y                   
+                  [dq#qq#pW@@@WWqQWK}w)NqQQ/   lMWXU\Q#l'"|"0                   
+                _@NNKNmW#W#pN#q@W@q@,#pHWQN#   "ys@wxqp@}                       
+             _qQqWNW#XKQmQ@mmQqq@mmWnN#Wp",em'[g# '- %#M                        
+            qK#pMQ@@mmqNQm#mKq@N#MpQWMXEd@###p      #dNb                        
+          up@pMQqp#NNNNQqKpKQNMm#mQNqKg@q@Kg#b ,{]|}mmW                         
+          7B@gq@qW@@pXmQQmm@NQX###@#p@#WNQX#mW]NqQ@pNB.                         
+           0NgQMWWMNMm@M#pNWKNmXN@dpM@XNpmNm#@*iv ^KW#p                 }       
+             ZQNMpMMQNpmKmmMQb@p@BM@pMNpmM#KQ@TMQ#{QNF               :          
+               gBQg@BMQmmMqKQpQNwMmK#K@mmNKN@m%T NQ#Q%                          
+               #QggNM#qMWMQ@KQbNqmb##pMp#@BNMDK+ V) Tm#              `          
+              J#gMm@#QKKQ#BXKKmp@mNpXWmF  MqKQK      WNV             .          
+             _NqMmp@KpNm#KK@mXMN@Wpp#WQ    BpK(|      m@,                       
+            qNQ#N#K#QpWpN#MmQm##m#NMNN`   |N! |]    ,b mH,                      
+\(          KmN@W@XWQXMWmQgWQM#qQpM#gL    NF@ }:  ` |.  qd "                    
+`      |wquMW@NqpNmQ#MKMMKKpmQmNmN#m4    [Bhp ]:       |u@p           (         
+bd#ddb|bWW@QWmKQ##QW@#mMNmqQqpMmqKK@L}{  q4Q.)|:    ] ^ ['Q#(#(wq | ,{yy,       
+ [ | /\  NQ#NKqmWN#N#qqKKmpMQ#NqqN@E`*\|qQHW 0/,{l w|Nw]b[JpQ#|]W ]q#pQQbpWN|   
+   {    ~qgm#qKpNq#@pNQQm#pqQN#W@KX     Q@! W|y[ ]Wm*9b) ](NW%0"* {0w#|*bUdw0"){
+        @#gqQM#Wq@NmWKmpMWNpKQKqpMb    ~BLX } |{ ,   \ ` ]  MNw                 
+       dN@NpQNQpQqQpmKMQKWBm#NWN@@     [Mdt(  J}       [ , . QQp]\|\.|)|    ],) 
+       @@NQKqmpq@qMNKKNWW@WmKKKQQ  )[ .Kjq/   J\   ([\[{ w [|\MWp|/||[w||{W]`\`\
+        JmKMKmKMKWMm#WKM@WBqMN#mb     }Qnb   ]J{ . \/*  \ 7.`\ WNb| { / .`{ ({{ 
+           [WK#pqqmp@#WKQNNM#KmM    ) m#}" \.  ^             )  g@.     (   \ {]
+           N#QmW@Q@p@QMNpKNQmpKh     {] `                  *  /|"#-    ]   \ (/|
+           dXqWmmM#m#KKgNpmM#NQ  [   qM p    .       \   {   *|{ UBQ[ `\ `\.{, [
+           #M@wq#qW@B@W@mm##Nm    [[gWW(]*`\[               ../   !Wb   / .  |  
+       .   bmN@w|]qN%KB@B#mNU#.| ){|qKbW []    /  {./ `'(   {    `)3MW( )])*/|[ 
+          UQppm#d#q dWW#WqbW]/    \dV77`[`   ./   {    ` `  '   ['. X  )(|||   ]
+   \      Wm#Mpw|M} ]Q@@ppqw|      ]h      ''  | ]    \ .]. ` [|  .  ] (){`\/ \.
+     ,  \ ]MWQN@#pV/{qQqWNQbp[{    #   ]      ]. {[)  ` . )  *|\`` | /[ `|]  [| 
+
+Write 80 ' '
+
+Next line
+
+Write 80 ' '
+
+Next line
+
+Write 38 ' '
+` .|,
+Write 37 ' '
+
+Next line
+
+Write 36 ' '
+Ng#p@#Mb[
+Write 34 ' '
+
+Next line
+
+Write 35 ' '
+mKQBmgB@pm#W_
+Write 31 ' '
+
+Next line
+
+Write 34 ' '
+|NgKm#@BKm#W
+Write 31 ' '
+
+Next line
+
+Write 34 ' '
+B#@|MK@W| |(pQpd
+Write 28 ' '
+
+Next line
+
+Write 29 ' '
+-,`_@NW@Q,U+# / #WXN0^*W]
+Write 24 ' '
+
+Next line
+
+Write 22 ' '
+`N@WXbQ#p#@W#Nb@[
+Write 4 ' '
+*m|)N| bMF!w]
+Write 22 ' '
+
+Next line
+
+Write 21 ' '
+dKqMQ#p@K#N# ]Wmwp/|* (pbMWp #!*
+Write 3 ' '
+y
+Write 19 ' '
+
+Next line
+
+Write 18 ' '
+[dq#q#pW
+Write 3 '@'
+WqQWK}w)NqQ/
+Write 3 ' '
+lMWXU\Q#l'"|"0
+Write 19 ' '
+
+Next line
+
+Write 16 ' '
+_@NKNmW#W#pN#q@W@q@,#pHWQN#
+Write 3 ' '
+"ys@wxqp@}
+Write 23 ' '
+
+Next line
+
+Write 13 ' '
+_qQqWNW#XKQmQ@mQq@mWnN#Wp",em'[g# '- %#M
+Write 24 ' '
+
+Next line
+
+Write 12 ' '
+qK#pMQ@mqNQm#mKq@N#MpQWMXEd@
+Write 3 '#'
+p
+Write 6 ' '
+#dNb
+Write 24 ' '
+
+Next line
+
+Write 10 ' '
+up@pMQqp#
+Write 4 'N'
+QqKpKQNMm#mQNqKg@q@Kg#b ,{]|}mW
+Write 25 ' '
+
+Next line
+
+Write 10 ' '
+7B@gq@qW@pXmQm@NQX
+Write 3 '#'
+@#p@#WNQX#mW]NqQ@pNB.
+Write 25 ' '
+
+Next line
+
+Write 11 ' '
+0NgQMWMNMm@M#pNWKNmXN@dpM@XNpmNm#@*iv ^KW#p
+Write 17 ' '
+}
+Write 7 ' '
+
+Next line
+
+Write 13 ' '
+ZQNMpMQNpmKmMQb@p@BM@pMNpmM#KQ@TMQ#{QNF
+Write 15 ' '
+:
+Write 10 ' '
+
+Next line
+
+Write 15 ' '
+gBQg@BMQmMqKQpQNwMmK#K@mNKN@m%T NQ#Q%
+Write 26 ' '
+
+Next line
+
+Write 15 ' '
+#QgNM#qMWMQ@KQbNqmb#pMp#@BNMDK+ V) Tm#
+Write 14 ' '
+`
+Write 10 ' '
+
+Next line
+
+Write 14 ' '
+J#gMm@#QKQ#BXKmp@mNpXWmF MqKQK
+Write 6 ' '
+WNV
+Write 13 ' '
+.
+Write 10 ' '
+
+Next line
+
+Write 13 ' '
+_NqMmp@KpNm#K@mXMN@Wp#WQ
+Write 4 ' '
+BpK(|
+Write 6 ' '
+m@,
+Write 23 ' '
+
+Next line
+
+Write 12 ' '
+qNQ#N#K#QpWpN#MmQm#m#NMN`
+Write 3 ' '
+|N! |]
+Write 4 ' '
+,b mH,
+Write 22 ' '
+
+Next line
+\(
+Write 10 ' '
+KmN@W@XWQXMWmQgWQM#qQpM#gL
+Write 4 ' '
+NF@ }: ` |. qd "
+Write 20 ' '
+
+Next line
+`
+Write 6 ' '
+|wquMW@NqpNmQ#MKMKpmQmNmN#m4
+Write 4 ' '
+[Bhp ]:
+Write 7 ' '
+|u@p
+Write 11 ' '
+(
+Write 9 ' '
+
+Next line
+bd#db|bW@QWmKQ#QW@#mMNmqQqpMmqK@L}{ q4Q.)|:
+Write 4 ' '
+] ^ ['Q#(#(wq | ,{y,
+Write 7 ' '
+
+Next line
+ [ | /\ NQ#NKqmWN#N#qKmpMQ#NqN@E`*\|qQHW 0/,{l w|Nw]b[JpQ#|]W ]q#pQbpWN|
+Write 3 ' '
+
+Next line
+
+Write 3 ' '
+{
+Write 4 ' '
+~qgm#qKpNq#@pNQm#pqQN#W@KX
+Write 5 ' '
+Q@! W|y[ ]Wm*9b) ](NW%0"* {0w#|*bUdw0"){
+Next line
+
+Write 8 ' '
+@#gqQM#Wq@NmWKmpMWNpKQKqpMb
+Write 4 ' '
+~BLX } |{ ,
+Write 3 ' '
+\ ` ] MNw
+Write 17 ' '
+
+Next line
+
+Write 7 ' '
+dN@NpQNQpQqQpmKMQKWBm#NWN@
+Write 5 ' '
+[Mdt( J}
+Write 7 ' '
+[ , . Qp]\|\.|)|
+Write 4 ' '
+],) 
+Next line
+
+Write 7 ' '
+@NQKqmpq@qMNKNW@Wm
+Write 3 'K'
+Q )[ .Kjq/
+Write 3 ' '
+J\
+Write 3 ' '
+([\[{ w [|\MWp|/|[w|{W]`\`\
+Next line
+
+Write 8 ' '
+JmKMKmKMKWMm#WKM@WBqMN#mb
+Write 5 ' '
+}Qnb
+Write 3 ' '
+]J{ . \/* \ 7.`\ WNb| { / .`{ ({ 
+Next line
+
+Write 11 ' '
+[WK#pqmp@#WKQNM#KmM
+Write 4 ' '
+) m#}" \. ^
+Write 13 ' '
+) g@.
+Write 5 ' '
+(
+Write 3 ' '
+\ {]
+Next line
+
+Write 11 ' '
+N#QmW@Q@p@QMNpKNQmpKh
+Write 5 ' '
+{] `
+Write 18 ' '
+* /|"#-
+Write 4 ' '
+]
+Write 3 ' '
+\ (/|
+Next line
+
+Write 11 ' '
+dXqWmM#m#KgNpmM#NQ [
+Write 3 ' '
+qM p
+Write 4 ' '
+.
+Write 7 ' '
+\
+Write 3 ' '
+{
+Write 3 ' '
+*|{ UBQ[ `\ `\.{, [
+Next line
+
+Write 11 ' '
+#M@wq#qW@B@W@m#Nm
+Write 4 ' '
+[gW(]*`\[
+Write 15 ' '
+./
+Write 3 ' '
+!Wb
+Write 3 ' '
+/ . | 
+Next line
+
+Write 7 ' '
+.
+Write 3 ' '
+bmN@w|]qN%KB@B#mNU#.| ){|qKbW []
+Write 4 ' '
+/ {./ `'(
+Write 3 ' '
+{
+Write 4 ' '
+`)3MW( )])*/|[ 
+Next line
+
+Write 10 ' '
+UQpm#d#q dW#WqbW]/
+Write 4 ' '
+\dV7`[`
+Write 3 ' '
+./
+Write 3 ' '
+{
+Write 4 ' '
+` ` '
+Write 3 ' '
+['. X )(
+Write 3 '|'
+
+Write 3 ' '
+]
+Next line
+
+Write 3 ' '
+\
+Write 6 ' '
+Wm#Mpw|M} ]Q@pqw|
+Write 6 ' '
+]h
+Write 6 ' '
+' | ]
+Write 4 ' '
+\ .]. ` [| . ] (){`\/ \.
+Next line
+
+Write 5 ' '
+, \ ]MWQN@#pV/{qQqWNQbp[{
+Write 4 ' '
+#
+Write 3 ' '
+]
+Write 6 ' '
+]. {[) ` . ) *|\` | /[ `|] [| 
+Next line

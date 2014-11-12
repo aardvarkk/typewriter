@@ -33,10 +33,14 @@ int main(int argc, char const* agrv[])
   
   int var = 10; // How much variability we want in written characters. Means "a percentage of all characters", so 5 means we'll choose randomly from the top 5% of chars
 
-  // Good settings for Windows console output
+  // Good settings for Visual Studio console output
+  //int px = 5; // Size of padding in X
+  //int py = -2; // Size of padding in Y
+
+  // Good settings for Windows command prompt
   int px = 5; // Size of padding in X
-  int py = -2; // Size of padding in Y
-  
+  int py = 2; // Size of padding in Y
+
   int r = 10; // Number of rows
   int c = 20; // Number of columns
   int bx = 1; // Size of border in X
@@ -70,7 +74,7 @@ int main(int argc, char const* agrv[])
 
   std::cout << "Output characters are " << outw << " x " << outh << std::endl;
 
-  for (;;) {
+  /*for (;;)*/ {
     
     // Create the font table
     font_chars.clear();
@@ -141,21 +145,20 @@ int main(int argc, char const* agrv[])
     // Show it
     font_disp.display(font_chars[disp_ch]);
     disp.display(font_table);
-    break;
-    disp.wait();
+    //disp.wait();
 
-    if (disp.is_keyESC() || disp.is_closed()) {
-      return EXIT_SUCCESS;
-    }
+    //if (disp.is_keyESC() || disp.is_closed()) {
+    //  return EXIT_SUCCESS;
+    //}
 
-    if (disp.is_keyARROWUP()) {
-      ++adj;
-      std::cout << adj << std::endl;
-    }
-    if (disp.is_keyARROWDOWN()) {
-      --adj;
-      std::cout << adj << std::endl;
-    }
+    //if (disp.is_keyARROWUP()) {
+    //  ++adj;
+    //  std::cout << adj << std::endl;
+    //}
+    //if (disp.is_keyARROWDOWN()) {
+    //  --adj;
+    //  std::cout << adj << std::endl;
+    //}
   }
 
   cimg_library::CImg<uint8_t> match_img("cameraman.pgm");
@@ -237,10 +240,37 @@ int main(int argc, char const* agrv[])
     std::cout << std::endl;
   }
   out_disp.display(out_img);
-  while (out_disp.wait()) {
-    if (out_disp.is_closed()) {
-      break;
+  //while (out_disp.wait()) {
+  //  if (out_disp.is_closed()) {
+  //    break;
+  //  }
+  //}
+
+  // Generate instructions
+  for (int i = 0; i < char_rows; ++i) {
+    int j = 0;
+
+    while (j < char_cols) {
+
+      // Check for repeats
+      int repeated = 0;
+      while (j < char_cols - 1 && chosen_chars[i * char_cols + j] == chosen_chars[i * char_cols + j + 1]) {
+        ++repeated;
+        ++j;
+      }
+
+      // Only care to write special text if there's a bunch written together
+      if (repeated >= 2) {
+        std::cout << std::endl << "Write " << repeated + 1 << " '" << allchars[chosen_chars[i * char_cols + j]] << "'" << std::endl;
+      }
+      else {
+        std::cout << allchars[chosen_chars[i * char_cols + j]];
+      }
+
+      ++j;
     }
+
+    std::cout << std::endl << "Next line" << std::endl;
   }
 
   return EXIT_SUCCESS;
