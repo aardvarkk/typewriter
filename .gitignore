@@ -1,0 +1,6 @@
+CImg-1.5.9
+Debug
+Release
+*.opensdf
+*.sdf
+*.suo
