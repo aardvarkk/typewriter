@@ -1,5 +1,6 @@
 #include "CImg-1.5.9/CImg.h"
 
+#include <algorithm>
 #include <cstdint>
 #include <iostream>
 #include <random>
@@ -29,10 +30,13 @@ int main(int argc, char const* agrv[])
 
   int ox = 2; // Offset to first border pixel in X
   int oy = 2; // Offset to first border pixel in Y
-  int px = 5; // Size of padding in X
-  int py = 0; // Size of padding in Y
+  
   int var = 10; // How much variability we want in written characters. Means "a percentage of all characters", so 5 means we'll choose randomly from the top 5% of chars
 
+  // Good settings for Windows console output
+  int px = 5; // Size of padding in X
+  int py = -2; // Size of padding in Y
+  
   int r = 10; // Number of rows
   int c = 20; // Number of columns
   int bx = 1; // Size of border in X
@@ -72,12 +76,48 @@ int main(int argc, char const* agrv[])
     font_chars.clear();
     for (int i = 0; i < r; ++i) {
       for (int j = 0; j < c; ++j) {
+
         auto sx = ox + (j + 1) * bx + j * inw + px;
         auto sy = oy + (i + 1) * by + i * inh + py;
-        auto ex = sx + outw - 1;
-        auto ey = sy + outh - 1;
-        auto ch = font_img.get_crop(sx, sy, ex, ey);
-        font_chars.push_back(ch);
+
+        // Original approach doesn't work when we have negative padding
+        // We can't use get_crop() because the dimensions will be wrong given negative padding
+        // We actually can't retrieve outw x outh images from the original images
+        // We can only copy inw x inh into a larger output
+        // This approach assumed outw <= inw and outh <= inh
+        if (outw <= inw && outh <= inh) {
+          auto ex = sx + outw - 1;
+          auto ey = sy + outh - 1;
+          font_chars.push_back(font_img.get_crop(sx, sy, ex, ey));
+        }
+        // More complicated copy/shifting
+        else {
+          cimg_library::CImg<uint8_t> char_img(outw, outh);
+          char_img.fill(0xff);
+
+          // For each output row...
+          int skipped_y = 0;
+          for (int k = 0; k < outh; ++k) {
+
+            if (skipped_y++ < -py || k >= outh + py) {
+              continue;
+            }
+
+            // For each output column...
+            int skipped_x = 0;
+            for (int l = 0; l < outw; ++l) {
+
+              if (skipped_x++ < -px || l >= outw + px) {
+                continue;
+              }
+
+              // Copy pixels
+              char_img.at(k * outw + l) = font_img.at((sy + k) * font_img.width() + (sx + l));
+            }
+          }
+
+          font_chars.push_back(char_img);
+        }
       }
     }
   
