@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cstdint>
+#include <cwchar>
 #include <iostream>
 #include <random>
 #include <set>
@@ -30,23 +31,29 @@ int main(int argc, char const* agrv[])
 
   int ox = 2; // Offset to first border pixel in X
   int oy = 2; // Offset to first border pixel in Y
-  
-  int var = 10; // How much variability we want in written characters. Means "a percentage of all characters", so 5 means we'll choose randomly from the top 5% of chars
+  int out_aspx = 101; // Take some number of characters in X and measure the amount of room they take to get the aspect ratio
+  int out_aspy = 168; // Take some number of characters in Y and measure the amount of room they take to get the aspect ratio
+
+  int var = 5; // How much variability we want in written characters. Means "a percentage of all characters", so 5 means we'll choose randomly from the top 5% of chars
 
   // Good settings for Visual Studio console output
   //int px = 5; // Size of padding in X
   //int py = -2; // Size of padding in Y
 
   // Good settings for Windows command prompt
-  int px = 5; // Size of padding in X
-  int py = 2; // Size of padding in Y
+  //int px = 5; // Size of padding in X
+  //int py = 2; // Size of padding in Y
 
-  int r = 10; // Number of rows
+  int r = 10; // Number of rows in input font image
   int c = 20; // Number of columns
-  int bx = 1; // Size of border in X
-  int by = 1; // Size of border in Y
+  int bx = 1; // Size of border in X before image starts
+  int by = 1; // Size of border in Y before image starts
   int inw = 20; // Total input width on image (includes padding but not border)
   int inh = 24; // Total input height on image (includes padding but not border)
+
+  int px = 4; // Change these to crop directly to the font in x and y
+  int py = 2; // Change these to crop directly to the font in x and y
+
   int outw = inw - 2 * px; // Width of output chars
   int outh = inh - 2 * py; // Height of output chars
 
@@ -54,12 +61,14 @@ int main(int argc, char const* agrv[])
   int& adj = disp_ch; // Our variable to adjust
 
   // Create list of chars for text output
-  std::vector<char> allchars = { 
-    '!', '"', '#', '$', '%', '&', '\'', '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4',
-    '5', '6', '7', '8', '9', ':', ';', '<', '=', '>', '?', '@', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
-    'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '[', '\\',
-    ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
-    'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~', ' '
+  std::vector<wchar_t> allchars = { 
+    L'!', L'"', L'#', L'$', L'%', L'&', L'\'', L'(', L')', L'*', L'+', L',', L'-', L'.', L'/', L'0', L'1', L'2', L'3', L'4',
+    L'5', L'6', L'7', L'8', L'9', L':', L';',  L'<', L'=', L'>', L'?', L'@', L'A', L'B', L'C', L'D', L'E', L'F', L'G', L'H',
+    L'I', L'J', L'K', L'L', L'M', L'N', L'O',  L'P', L'Q', L'R', L'S', L'T', L'U', L'V', L'W', L'X', L'Y', L'Z', L'[', L'\\',
+    L']', L'^', L'_', L'`', L'a', L'b', L'c',  L'd', L'e', L'f', L'g', L'h', L'i', L'j', L'k', L'l', L'm', L'n', L'o', L'p',
+    L'q', L'r', L's', L't', L'u', L'v', L'w',  L'x', L'y', L'z', L'{', L'|', L'}', L'~', L' ', L'¡', L'¢', L'£', L'¤', L'¥',
+    L'¦', L'§', L'¨', L' ', L'ª', L'«', L'¬',  L' ', L' ', L'¯', L'°', L'±', L'²', L'³', L'´', L'µ', L'¶', L'·', L'¸', L'¹',
+    L' ', L'»', L'¼', L'½', L'¾'
   };
 
   // We want to know where the space is so that we can make an exception for it
@@ -68,16 +77,25 @@ int main(int argc, char const* agrv[])
 
   // Create list of allowed output characters
   std::set<int> allow_idxs;
-  for (int i = 0; i < 95; ++i) {
-    // Backslash
-    //if (i == 59) {
-    //  continue;
-    //}
-
+  for (int i = 0; i <= space_idx; ++i) {
     allow_idxs.insert(i);
   }
 
-  std::cout << "Output characters are " << outw << " x " << outh << std::endl;
+  // Remove entries for characters we don't support
+  allow_idxs.erase(std::distance(allchars.begin(), std::find(allchars.begin(), allchars.end(), L'\\')));
+  allow_idxs.erase(std::distance(allchars.begin(), std::find(allchars.begin(), allchars.end(), L'{')));
+  allow_idxs.erase(std::distance(allchars.begin(), std::find(allchars.begin(), allchars.end(), L'|')));
+  allow_idxs.erase(std::distance(allchars.begin(), std::find(allchars.begin(), allchars.end(), L'}')));
+
+  // Add some special ones we do support
+  allow_idxs.insert(std::distance(allchars.begin(), std::find(allchars.begin(), allchars.end(), L'¢')));
+  allow_idxs.insert(std::distance(allchars.begin(), std::find(allchars.begin(), allchars.end(), L'§')));
+  allow_idxs.insert(std::distance(allchars.begin(), std::find(allchars.begin(), allchars.end(), L'¶')));
+  allow_idxs.insert(std::distance(allchars.begin(), std::find(allchars.begin(), allchars.end(), L'¼')));
+  allow_idxs.insert(std::distance(allchars.begin(), std::find(allchars.begin(), allchars.end(), L'½')));
+
+  std::wcout << "Output characters are " << outw << " x " << outh << std::endl;
+  std::wcout << "Output aspect is " << static_cast<float>(outw) / outh << std::endl;
 
   /*for (;;)*/ {
     
@@ -158,11 +176,11 @@ int main(int argc, char const* agrv[])
 
     //if (disp.is_keyARROWUP()) {
     //  ++adj;
-    //  std::cout << adj << std::endl;
+    //  std::wcout << adj << std::endl;
     //}
     //if (disp.is_keyARROWDOWN()) {
     //  --adj;
-    //  std::cout << adj << std::endl;
+    //  std::wcout << adj << std::endl;
     //}
   }
 
@@ -170,21 +188,18 @@ int main(int argc, char const* agrv[])
   int char_cols = 60; // Output columns per page
   int char_rows = char_cols * match_img.width() / match_img.height() * outw / outh; // Make it same aspect as input
 
-  // Go through each output row and column and find best matching character
-  int src_blkw = match_img.width() / char_cols;
-  int src_blkh = match_img.height() / char_rows;
-
   std::vector<uint32_t> chosen_chars;
   for (int i = 0; i < char_rows; ++i) {
     for (int j = 0; j < char_cols; ++j) {
 
-      // Get the source block
-      cimg_library::CImg<uint8_t> src_blk(src_blkw, src_blkh);
-      for (int di = 0; di < src_blkh; ++di) {
-        for (int dj = 0; dj < src_blkw; ++dj) {
-          src_blk.at(di * src_blkw + dj) = match_img.at((i * src_blkh + di) * match_img.width() + (j * src_blkw + dj));
-        }
-      }
+      // Go through each output row and column and find best matching character
+      int src_blkx0 = match_img.width()  * j / char_cols;
+      int src_blky0 = match_img.height() * i / char_rows;
+      int src_blkx1 = match_img.width()  * (j + 1) / char_cols - 1;
+      int src_blky1 = match_img.height() * (i + 1) / char_rows - 1;
+
+      // Grab a crop from the source image
+      auto src_blk = match_img.get_crop(src_blkx0, src_blky0, src_blkx1, src_blky1);
 
       // Resize source block to same size as character images
       src_blk.resize(outw, outh);
@@ -239,10 +254,10 @@ int main(int argc, char const* agrv[])
         }
       }
 
-      std::cout << allchars[chosen_chars[k]];
+      std::wcout << allchars[chosen_chars[k]];
     }
 
-    std::cout << std::endl;
+    std::wcout << std::endl;
   }
   out_disp.display(out_img);
   //while (out_disp.wait()) {
@@ -266,19 +281,19 @@ int main(int argc, char const* agrv[])
 
       // Only care to write special text if there's a bunch written together
       if (repeated >= 2) {
-        std::cout << std::endl << "Write " << repeated + 1 << " '" << allchars[chosen_chars[i * char_cols + j]] << "'" << std::endl;
+        std::wcout << std::endl << "Write " << repeated + 1 << " '" << allchars[chosen_chars[i * char_cols + j]] << "'" << std::endl;
       }
       else {
         // Can still get in here if we had 1 repeat, so we want to loop here to catch everything
         for (int k = repeated; k >= 0; --k) {
-          std::cout << allchars[chosen_chars[i * char_cols + j - k]];
+          std::wcout << allchars[chosen_chars[i * char_cols + j - k]];
         }
       }
 
       ++j;
     }
 
-    std::cout << std::endl << "Next line" << std::endl;
+    std::wcout << std::endl << "Next line" << std::endl;
   }
 
   return EXIT_SUCCESS;
