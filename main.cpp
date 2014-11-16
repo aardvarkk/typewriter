@@ -161,8 +161,8 @@ int main(int argc, char const* agrv[])
     //}
   }
 
-  cimg_library::CImg<uint8_t> match_img("cameraman.pgm");
-  int char_cols = 80; // Output columns per page
+  cimg_library::CImg<uint8_t> match_img("image.pgm");
+  int char_cols = 60; // Output columns per page
   int char_rows = char_cols * match_img.width() / match_img.height() * outw / outh; // Make it same aspect as input
 
   // Go through each output row and column and find best matching character
