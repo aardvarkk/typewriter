@@ -69,6 +69,11 @@ int main(int argc, char const* agrv[])
   // Create list of allowed output characters
   std::set<int> allow_idxs;
   for (int i = 0; i < 95; ++i) {
+    // Backslash
+    //if (i == 59) {
+    //  continue;
+    //}
+
     allow_idxs.insert(i);
   }
 
@@ -264,7 +269,10 @@ int main(int argc, char const* agrv[])
         std::cout << std::endl << "Write " << repeated + 1 << " '" << allchars[chosen_chars[i * char_cols + j]] << "'" << std::endl;
       }
       else {
-        std::cout << allchars[chosen_chars[i * char_cols + j]];
+        // Can still get in here if we had 1 repeat, so we want to loop here to catch everything
+        for (int k = repeated; k >= 0; --k) {
+          std::cout << allchars[chosen_chars[i * char_cols + j - k]];
+        }
       }
 
       ++j;
