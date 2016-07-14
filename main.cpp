@@ -1,4 +1,4 @@
-#include "CImg-1.5.9/CImg.h"
+#include "CImg.h"
 
 #include <algorithm>
 #include <cstdint>
