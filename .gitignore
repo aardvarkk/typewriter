@@ -5,3 +5,8 @@ Release
 *.sdf
 *.suo
 *.VC.*
+Makefile
+CMakeCache.txt
+CMakeFiles/
+*.cmake
+typewriter

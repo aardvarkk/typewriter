@@ -8,8 +8,10 @@
 #include <set>
 #include <vector>
 
+using namespace std;
+
 // Random number engine
-std::mt19937 eng;
+mt19937 eng;
 
 struct char_match_t
 {
@@ -23,8 +25,12 @@ struct char_match_t
 
 // Input: 
 // 1. Font image from character map that's been converted to grayscale (PGM is easily loadable by CImg)
-int main(int argc, char const* agrv[])
+int main(int argc, char const* argv[])
 {
+  string match_image_filename = "image.pgm";
+  if (argc > 1)
+    match_image_filename = argv[1];
+
   cimg_library::CImgDisplay disp, font_disp, out_disp;
   cimg_library::CImg<uint8_t> font_img("font_img.pgm");
   cimg_library::CImgList<uint8_t> font_chars;
@@ -61,14 +67,14 @@ int main(int argc, char const* agrv[])
   int& adj = disp_ch; // Our variable to adjust
 
   // Create list of chars for text output
-  std::vector<wchar_t> allchars = { 
+  vector<wchar_t> allchars = { 
     L'!', L'"', L'#', L'$', L'%', L'&', L'\'', L'(', L')', L'*', L'+', L',', L'-', L'.', L'/', L'0', L'1', L'2', L'3', L'4',
     L'5', L'6', L'7', L'8', L'9', L':', L';',  L'<', L'=', L'>', L'?', L'@', L'A', L'B', L'C', L'D', L'E', L'F', L'G', L'H',
     L'I', L'J', L'K', L'L', L'M', L'N', L'O',  L'P', L'Q', L'R', L'S', L'T', L'U', L'V', L'W', L'X', L'Y', L'Z', L'[', L'\\',
     L']', L'^', L'_', L'`', L'a', L'b', L'c',  L'd', L'e', L'f', L'g', L'h', L'i', L'j', L'k', L'l', L'm', L'n', L'o', L'p',
-    L'q', L'r', L's', L't', L'u', L'v', L'w',  L'x', L'y', L'z', L'{', L'|', L'}', L'~', L' ', L'¡', L'¢', L'£', L'¤', L'¥',
-    L'¦', L'§', L'¨', L' ', L'ª', L'«', L'¬',  L' ', L' ', L'¯', L'°', L'±', L'²', L'³', L'´', L'µ', L'¶', L'·', L'¸', L'¹',
-    L' ', L'»', L'¼', L'½', L'¾'
+    L'q', L'r', L's', L't', L'u', L'v', L'w',  L'x', L'y', L'z', L'{', L'|', L'}', L'~', L' ', L'Â¡', L'Â¢', L'Â£', L'Â¤', L'Â¥',
+    L'Â¦', L'Â§', L'Â¨', L' ', L'Âª', L'Â«', L'Â¬',  L' ', L' ', L'Â¯', L'Â°', L'Â±', L'Â²', L'Â³', L'Â´', L'Âµ', L'Â¶', L'Â·', L'Â¸', L'Â¹',
+    L' ', L'Â»', L'Â¼', L'Â½', L'Â¾'
   };
 
   // We want to know where the space is so that we can make an exception for it
@@ -76,26 +82,26 @@ int main(int argc, char const* agrv[])
   int space_idx = 94; 
 
   // Create list of allowed output characters
-  std::set<int> allow_idxs;
+  set<int> allow_idxs;
   for (int i = 0; i <= space_idx; ++i) {
     allow_idxs.insert(i);
   }
 
   // Remove entries for characters we don't support
-  allow_idxs.erase(std::distance(allchars.begin(), std::find(allchars.begin(), allchars.end(), L'\\')));
-  allow_idxs.erase(std::distance(allchars.begin(), std::find(allchars.begin(), allchars.end(), L'{')));
-  allow_idxs.erase(std::distance(allchars.begin(), std::find(allchars.begin(), allchars.end(), L'|')));
-  allow_idxs.erase(std::distance(allchars.begin(), std::find(allchars.begin(), allchars.end(), L'}')));
+  allow_idxs.erase(distance(allchars.begin(), find(allchars.begin(), allchars.end(), L'\\')));
+  allow_idxs.erase(distance(allchars.begin(), find(allchars.begin(), allchars.end(), L'{')));
+  allow_idxs.erase(distance(allchars.begin(), find(allchars.begin(), allchars.end(), L'|')));
+  allow_idxs.erase(distance(allchars.begin(), find(allchars.begin(), allchars.end(), L'}')));
 
   // Add some special ones we do support
-  allow_idxs.insert(std::distance(allchars.begin(), std::find(allchars.begin(), allchars.end(), L'¢')));
-  allow_idxs.insert(std::distance(allchars.begin(), std::find(allchars.begin(), allchars.end(), L'§')));
-  allow_idxs.insert(std::distance(allchars.begin(), std::find(allchars.begin(), allchars.end(), L'¶')));
-  allow_idxs.insert(std::distance(allchars.begin(), std::find(allchars.begin(), allchars.end(), L'¼')));
-  allow_idxs.insert(std::distance(allchars.begin(), std::find(allchars.begin(), allchars.end(), L'½')));
+  allow_idxs.insert(distance(allchars.begin(), find(allchars.begin(), allchars.end(), L'Â¢')));
+  allow_idxs.insert(distance(allchars.begin(), find(allchars.begin(), allchars.end(), L'Â§')));
+  allow_idxs.insert(distance(allchars.begin(), find(allchars.begin(), allchars.end(), L'Â¶')));
+  allow_idxs.insert(distance(allchars.begin(), find(allchars.begin(), allchars.end(), L'Â¼')));
+  allow_idxs.insert(distance(allchars.begin(), find(allchars.begin(), allchars.end(), L'Â½')));
 
-  std::wcout << "Output characters are " << outw << " x " << outh << std::endl;
-  std::wcout << "Output aspect is " << static_cast<float>(outw) / outh << std::endl;
+  wcout << "Output characters are " << outw << " x " << outh << endl;
+  wcout << "Output aspect is " << static_cast<float>(outw) / outh << endl;
 
   /*for (;;)*/ {
     
@@ -166,8 +172,10 @@ int main(int argc, char const* agrv[])
     }
 
     // Show it
+    #if cimg_display > 0
     font_disp.display(font_chars[disp_ch]);
     disp.display(font_table);
+    #endif
     //disp.wait();
 
     //if (disp.is_keyESC() || disp.is_closed()) {
@@ -176,19 +184,19 @@ int main(int argc, char const* agrv[])
 
     //if (disp.is_keyARROWUP()) {
     //  ++adj;
-    //  std::wcout << adj << std::endl;
+    //  wcout << adj << endl;
     //}
     //if (disp.is_keyARROWDOWN()) {
     //  --adj;
-    //  std::wcout << adj << std::endl;
+    //  wcout << adj << endl;
     //}
   }
 
-  cimg_library::CImg<uint8_t> match_img("image.pgm");
+  cimg_library::CImg<uint8_t> match_img(match_image_filename.c_str());
   int char_cols = 60; // Output columns per page
   int char_rows = char_cols * match_img.width() / match_img.height() * outw / outh; // Make it same aspect as input
 
-  std::vector<uint32_t> chosen_chars;
+  vector<uint32_t> chosen_chars;
   for (int i = 0; i < char_rows; ++i) {
     for (int j = 0; j < char_cols; ++j) {
 
@@ -206,7 +214,7 @@ int main(int argc, char const* agrv[])
 
       // Collect all diffs so we can choose randoms from a top percentage
       // This way, the typing is more interesting instead of repeated letters over and over
-      std::set<char_match_t> matches;
+      set<char_match_t> matches;
 
       // Only allow characters we're OK with
       for (auto ai : allow_idxs) {
@@ -231,9 +239,9 @@ int main(int argc, char const* agrv[])
       // If it's not a space, choose a random from the top n% of matches
       else {
         auto topn = allchars.size() * var / 100;
-        std::uniform_int_distribution<> distn(0, topn);
+        uniform_int_distribution<> distn(0, topn);
         auto it = matches.begin();
-        std::advance(it, distn(eng));
+        advance(it, distn(eng));
         chosen_chars.push_back(it->char_idx);
       }
     }
@@ -254,12 +262,16 @@ int main(int argc, char const* agrv[])
         }
       }
 
-      std::wcout << allchars[chosen_chars[k]];
+      wcout << allchars[chosen_chars[k]];
     }
 
-    std::wcout << std::endl;
+    wcout << endl;
   }
+
+  #if cimg_display > 0
   out_disp.display(out_img);
+  #endif
+
   //while (out_disp.wait()) {
   //  if (out_disp.is_closed()) {
   //    break;
@@ -281,19 +293,19 @@ int main(int argc, char const* agrv[])
 
       // Only care to write special text if there's a bunch written together
       if (repeated >= 2) {
-        std::wcout << std::endl << "Write " << repeated + 1 << " '" << allchars[chosen_chars[i * char_cols + j]] << "'" << std::endl;
+        wcout << endl << "Write " << repeated + 1 << " '" << allchars[chosen_chars[i * char_cols + j]] << "'" << endl;
       }
       else {
         // Can still get in here if we had 1 repeat, so we want to loop here to catch everything
         for (int k = repeated; k >= 0; --k) {
-          std::wcout << allchars[chosen_chars[i * char_cols + j - k]];
+          wcout << allchars[chosen_chars[i * char_cols + j - k]];
         }
       }
 
       ++j;
     }
 
-    std::wcout << std::endl << "Next line" << std::endl;
+    wcout << endl << "Next line" << endl;
   }
 
   return EXIT_SUCCESS;
